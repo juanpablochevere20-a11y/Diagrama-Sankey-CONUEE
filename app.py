@@ -1462,8 +1462,8 @@ if st.session_state["mostrar_tabla"]:
     else:
         df_sankey = pd.DataFrame(sankey_data)
         df_tabla = df_sankey.rename(columns={
-            "uso": "Uso",
-            "subuso": "Subuso",
+            "Servicio": "Uso",
+            "Equipo": "Subuso",
             "valor": "Consumo (kWh/mes)"
         })
 
@@ -1473,8 +1473,8 @@ if st.session_state["mostrar_tabla"]:
 
         # ✅ Agregar fila final del total
         total_row = pd.DataFrame({
-            "Uso": ["TOTAL"],
-            "Subuso": [""],
+            "Servicio": ["TOTAL"],
+            "Equipo": [""],
             "Consumo (kWh/mes)": [round(total, 2)],
             "% del consumo": [100.00]
         })
@@ -1574,6 +1574,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
