@@ -914,11 +914,11 @@ with tab_salud:
     # MODO POR PISO
     # ------------------------
     elif modo_calculo == "Por piso":
-        st.subheader("🏬 Cálculo de consumo por piso — Oficina")
+        st.subheader("🏬 Cálculo de consumo por piso — Salud")
 
         num_pisos = st.number_input(
             "Número de pisos del inmueble:",
-            min_value=1, step=1, value=1, key="oficina_pisos"
+            min_value=1, step=1, value=1, key="salud_pisos"
         )
 
         for piso in range(1, num_pisos + 1):
@@ -1488,6 +1488,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
