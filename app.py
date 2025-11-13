@@ -1563,58 +1563,58 @@ if st.session_state["mostrar_sankey"]:
 # ------------------------
 # Mostrar gráfico de Pareto
 # ------------------------
-if st.session_state["mostrar_pareto"] and st.session_state.get("sankey_data"):
-    df_sankey = pd.DataFrame(st.session_state["sankey_data"])
+if st.session_state["mostrar_pareto"]:
+    sankey_data = st.session_state.get("sankey_data", [])
     
     if not sankey_data:
         st.sidebar.info("⚠️ No hay datos calculados aún. Ingresa subusos y calcula consumos en las pestañas.")
     else:
         df_sankey = pd.DataFrame(sankey_data)
-    # Agrupar por subuso/equipo
-    df_pareto = df_sankey.groupby("subuso")["valor"].sum().reset_index()
-    df_pareto = df_pareto.rename(columns={"subuso": "Equipo", "valor": "Consumo (kWh/mes)"})
 
-    # Ordenar de mayor a menor consumo
-    df_pareto = df_pareto.sort_values(by="Consumo (kWh/mes)", ascending=False)
-    df_pareto["% Acumulado"] = df_pareto["Consumo (kWh/mes)"].cumsum() / df_pareto["Consumo (kWh/mes)"].sum() * 100
+        # Agrupar por subuso/equipo
+        df_pareto = df_sankey.groupby("subuso")["valor"].sum().reset_index()
+        df_pareto = df_pareto.rename(columns={"subuso": "Equipo", "valor": "Consumo (kWh/mes)"})
 
-    # Crear gráfico de Pareto usando Plotly
-    fig_pareto = go.Figure()
+        # Ordenar de mayor a menor consumo
+        df_pareto = df_pareto.sort_values(by="Consumo (kWh/mes)", ascending=False)
+        df_pareto["% Acumulado"] = df_pareto["Consumo (kWh/mes)"].cumsum() / df_pareto["Consumo (kWh/mes)"].sum() * 100
 
-    # Barras: Consumo de cada equipo
-    fig_pareto.add_trace(go.Bar(
-        x=df_pareto["Equipo"],
-        y=df_pareto["Consumo (kWh/mes)"],
-        name="Consumo (kWh/mes)",
-        marker_color="steelblue"
-    ))
+        # Crear gráfico de Pareto usando Plotly
+        fig_pareto = go.Figure()
 
-    # Línea: % acumulado
-    fig_pareto.add_trace(go.Scatter(
-        x=df_pareto["Equipo"],
-        y=df_pareto["% Acumulado"],
-        name="% Acumulado",
-        yaxis="y2",
-        mode="lines+markers",
-        marker_color="crimson"
-    ))
+        # Barras: Consumo de cada equipo
+        fig_pareto.add_trace(go.Bar(
+            x=df_pareto["Equipo"],
+            y=df_pareto["Consumo (kWh/mes)"],
+            name="Consumo (kWh/mes)",
+            marker_color="steelblue"
+        ))
 
-    # Configurar doble eje Y
-    fig_pareto.update_layout(
-        title="📊 Gráfico de Pareto de consumo por equipo",
-        xaxis_title="Equipo",
-        yaxis_title="Consumo (kWh/mes)",
-        yaxis2=dict(
-            title="% Acumulado",
-            overlaying="y",
-            side="right",
-            range=[0, 110]
-        ),
-        legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01)
-    )
+        # Línea: % acumulado
+        fig_pareto.add_trace(go.Scatter(
+            x=df_pareto["Equipo"],
+            y=df_pareto["% Acumulado"],
+            name="% Acumulado",
+            yaxis="y2",
+            mode="lines+markers",
+            marker_color="crimson"
+        ))
 
-    st.plotly_chart(fig_pareto, use_container_width=True)
+        # Configurar doble eje Y
+        fig_pareto.update_layout(
+            title="📊 Gráfico de Pareto de consumo por equipo",
+            xaxis_title="Equipo",
+            yaxis_title="Consumo (kWh/mes)",
+            yaxis2=dict(
+                title="% Acumulado",
+                overlaying="y",
+                side="right",
+                range=[0, 110]
+            ),
+            legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01)
+        )
 
+        st.plotly_chart(fig_pareto, use_container_width=True)
 # ------------------------
 # Footer
 # ------------------------
@@ -1631,6 +1631,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
