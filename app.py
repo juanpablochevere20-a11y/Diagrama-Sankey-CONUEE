@@ -573,24 +573,6 @@ def calcular_kwh_mes(potencia_w, num_equipos=1, horas=8, factor_mensual=21, cont
     return round(kwh, 2)
 
 # ------------------------
-# CONFIGURACIÓN DEL INMUEBLE (nuevo)
-# ------------------------
-st.sidebar.header("Configuración del inmueble")
-modo_calculo = st.radio(
-    "¿Cómo deseas contabilizar el consumo del inmueble?",
-    ["Global (todo el edificio)", "Por piso"],
-    index=0,
-    key="modo_calculo"
-)
-
-# ------------------------
-# MODO GLOBAL (flujo actual)
-# ------------------------
-if modo_calculo == "Global (todo el edificio)":
-    st.info("🔹 Modo Global activado: la app funciona como actualmente.")
-    # 👉 No necesitas cambiar nada más. Tu código actual sigue a continuación.
-
-# ------------------------
 # INTERFAZ: PESTAÑAS
 # ------------------------
 
@@ -614,6 +596,24 @@ with st.sidebar:
     #st.markdown("### Para Inmuebles Residenciales Selecciona 7 días")
     factor_mensual = round(dias_semana * 4.287, 3)
     #st.caption(f"Factor mensual usado: {factor_mensual} (días/semana × 4.287)")
+
+# ------------------------
+# CONFIGURACIÓN DEL INMUEBLE (nuevo)
+# ------------------------
+st.sidebar.header("Configuración del inmueble")
+modo_calculo = st.radio(
+    "¿Cómo deseas contabilizar el consumo del inmueble?",
+    ["Global (todo el edificio)", "Por piso"],
+    index=0,
+    key="modo_calculo"
+)
+
+# ------------------------
+# MODO GLOBAL (flujo actual)
+# ------------------------
+if modo_calculo == "Global (todo el edificio)":
+    st.info("🔹 Modo Global activado: la app funciona como actualmente.")
+    # 👉 No necesitas cambiar nada más. Tu código actual sigue a continuación.
 
 # ------------------------
 # MODO POR PISO (nuevo flujo)
@@ -1371,3 +1371,4 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
