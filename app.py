@@ -576,7 +576,7 @@ def calcular_kwh_mes(potencia_w, num_equipos=1, horas=8, factor_mensual=21, cont
 # INTERFAZ: PESTAÑAS
 # ------------------------
 
-tab_oficina, tab_salud, tab_otros, tab_residencial, tab_consejos = st.tabs(["🏢 Oficina", "🏥 Salud", "🏬 Otros usos", "🏠 Residencial", "💡 Consejos"])
+tab_oficina, tab_salud, tab_otros, tab_residencial, tab_consejos = st.tabs(["🏢 Oficina", "🏥 Salud", "🏦 Otros usos", "🏘️ Residencial", "💡 Consejos"])
 
 # Parámetros comunes (días de operación por semana -> factor mensual aproximado)
 
@@ -722,7 +722,7 @@ with tab_oficina:
     # MODO POR PISO
     # ------------------------
     elif modo_calculo == "Por piso":
-        st.subheader("🏬 Cálculo de consumo por piso — Oficina")
+        st.subheader("🏢 Cálculo de consumo por piso — Oficina")
 
         num_pisos = st.number_input(
             "Número de pisos del inmueble:",
@@ -893,7 +893,7 @@ with tab_salud:
     # MODO POR PISO
     # ------------------------
     elif modo_calculo == "Por piso":
-        st.subheader("🏬 Cálculo de consumo por piso — Salud")
+        st.subheader("🏥 Cálculo de consumo por piso — Salud")
         num_pisos = st.number_input("Número de pisos del inmueble:", min_value=1, step=1, value=1, key="salud_pisos")
 
         for piso in range(1, num_pisos + 1):
@@ -961,7 +961,7 @@ with tab_salud:
 # Pestaña Otros usos
 # ------------------------
 with tab_otros:
-    st.header("🏬 Otros usos — entrada de equipos y servicios")
+    st.header("🏦 Otros usos — entrada de equipos y servicios")
 
     # ------------------------
     # MODO GLOBAL
@@ -1053,7 +1053,7 @@ with tab_otros:
     # MODO POR PISO
     # ------------------------
     elif modo_calculo == "Por piso":
-        st.subheader("🏬 Cálculo de consumo por piso — Otros usos")
+        st.subheader("🏦 Cálculo de consumo por piso — Otros usos")
         num_pisos = st.number_input("Número de pisos del inmueble:", min_value=1, step=1, value=1, key="otros_pisos")
 
         for piso in range(1, num_pisos + 1):
@@ -1132,7 +1132,7 @@ with tab_residencial:
         st.toast("Para Inmuebles de uso residencial selecciona 7 días de operación.", icon="📌")
         st.session_state.res_tab_msg_shown = True
 
-    st.header("🏠 Residencial — entrada de equipos y servicios")
+    st.header("🏘️ Residencial — entrada de equipos y servicios")
     
     # Límites mensuales de consumo por tarifa (kWh/mes)
     limites_tarifa = {
@@ -1242,7 +1242,7 @@ with tab_residencial:
     # MODO POR PISO
     # ------------------------
     elif modo_calculo == "Por piso":
-        st.subheader("🏠 Cálculo de consumo por piso — Residencial")
+        st.subheader("🏘️ Cálculo de consumo por piso — Residencial")
         num_pisos = st.number_input("Número de pisos del inmueble:", min_value=1, step=1, value=1, key="res_pisos")
 
         for piso in range(1, num_pisos + 1):
@@ -1631,6 +1631,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
