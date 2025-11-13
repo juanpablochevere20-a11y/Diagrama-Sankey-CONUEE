@@ -1433,7 +1433,7 @@ with tab_consejos:
 # Resultados: Tabla resumen y Sankey (barra lateral con botones)
 # ------------------------
 st.sidebar.markdown("---")
-st.sidebar.header("Resultados y exportación")
+st.sidebar.header("Resultados:")
 
 # Inicializar flags si no existen
 if "mostrar_tabla" not in st.session_state:
@@ -1631,6 +1631,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
