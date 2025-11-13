@@ -1359,28 +1359,7 @@ with tab_residencial:
         st.warning("⚠️ *Te recomendamos moderar tu consumo de energía eléctrica* ya que estás **peligrosamente cerca** de cambiar a Tarifa DAC.")
     else:
         st.success("✅ Tu consumo está dentro del rango seguro para tu tarifa.")
-# ------------------------
-# Botón general para limpiar todos los datos
-# ------------------------
-#if st.button("🗑️ Limpiar todos los datos"):
-    # 1️⃣ Limpiar todos los usos seleccionados
-#    for key in list(st.session_state.keys()):
-#        if "usos" in key:
-#            if isinstance(st.session_state[key], list):
-#                st.session_state[key] = [] 
-#            else:
-#                del st.session_state[key]
 
-        # 2️⃣ Limpiar checkboxes de equipos/subusos
-#        if key.startswith(("of_", "res_", "fu_", "otr_", "sit_", "ele_", "air_")):
-#            del st.session_state[key]
-
-    # 3️⃣ Limpiar listas globales
-#    st.session_state["subusos_seleccionados"] = []
-#    st.session_state["sankey_data"] = []
-
-    # 4️⃣ Forzar refresco total de la interfaz
-#    st.rerun()
 # ------------------------
 # Pestaña Consejos (dinámica)
 # ------------------------
@@ -1395,8 +1374,12 @@ with tab_consejos:
             if isinstance(valor, list):  # evita errores si es bool o None
                 usos.extend(valor)
 
+    # Eliminar duplicados
+    usos = list(set(usos))  # <-- Aquí eliminamos repeticiones
+
     # Reunir los equipos seleccionados globalmente
     equipos = st.session_state.get("subusos_seleccionados", [])
+    equipos = list(set(equipos))  # también eliminamos duplicados si los hubiera
 
     if not usos and not equipos:
         st.info("Selecciona primero los servicios o equipos en la pestaña anterior para ver los consejos.")
@@ -1423,6 +1406,18 @@ with tab_consejos:
                     with st.expander(f"{eq} — Consejos Específicos", expanded=False):
                         for c in consejos[eq]:
                             st.markdown(f"- {c}")
+
+    # ------------------------
+    # Limpiar subusos no seleccionados
+    # ------------------------
+    subusos_activos = []
+    for key in st.session_state.keys():
+        if key.startswith(("of_", "res_", "fu_")):
+            valor = st.session_state.get(key)
+            if valor:  # solo agregamos si hay datos
+                nombre_equipo = key.split("_", 2)[-1]  # extrae el nombre del subuso
+                subusos_activos.append(nombre_equipo)
+    st.session_state["subusos_seleccionados"] = list(set(subusos_activos))  # <-- eliminar duplicados aquí también
 
     # ------------------------
     # Limpiar subusos no seleccionados
@@ -1579,6 +1574,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
