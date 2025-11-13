@@ -600,7 +600,6 @@ with st.sidebar:
 # ------------------------
 # CONFIGURACIÓN DEL INMUEBLE (nuevo)
 # ------------------------
-st.sidebar.header("Configuración del inmueble")
 modo_calculo = st.radio(
     "¿Cómo deseas contabilizar el consumo del inmueble?",
     ["Global (todo el edificio)", "Por piso"],
@@ -1574,6 +1573,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
