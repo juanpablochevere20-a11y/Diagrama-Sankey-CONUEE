@@ -1460,7 +1460,7 @@ if st.sidebar.button("📊 Mostrar / Ocultar Pareto"):
 if st.session_state["mostrar_tabla"]:
     sankey_data = st.session_state.get("sankey_data", [])
     if not sankey_data:
-        st.sidebar.info("⚠️ No hay datos calculados aún. Ingresa subusos y calcula consumos en las pestañas.")
+        st.sidebar.info("⚠️ No hay datos para generar Tabla."")
     else:
         df_sankey = pd.DataFrame(sankey_data)
         df_tabla = df_sankey.rename(columns={
@@ -1567,7 +1567,7 @@ if st.session_state["mostrar_pareto"]:
     sankey_data = st.session_state.get("sankey_data", [])
     
     if not sankey_data:
-        st.sidebar.info("⚠️ No hay datos calculados aún. Ingresa subusos y calcula consumos en las pestañas.")
+        st.sidebar.info("⚠️ No hay datos para generar Gráfico.")
     else:
         df_sankey = pd.DataFrame(sankey_data)
 
@@ -1631,6 +1631,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
