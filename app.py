@@ -1565,7 +1565,11 @@ if st.session_state["mostrar_sankey"]:
 # ------------------------
 if st.session_state["mostrar_pareto"] and st.session_state.get("sankey_data"):
     df_sankey = pd.DataFrame(st.session_state["sankey_data"])
-
+    
+    if not sankey_data:
+        st.sidebar.info("⚠️ No hay datos calculados aún. Ingresa subusos y calcula consumos en las pestañas.")
+    else:
+        df_sankey = pd.DataFrame(sankey_data)
     # Agrupar por subuso/equipo
     df_pareto = df_sankey.groupby("subuso")["valor"].sum().reset_index()
     df_pareto = df_pareto.rename(columns={"subuso": "Equipo", "valor": "Consumo (kWh/mes)"})
@@ -1627,6 +1631,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
