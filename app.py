@@ -1461,8 +1461,8 @@ if st.session_state["mostrar_tabla"]:
     else:
         df_sankey = pd.DataFrame(sankey_data)
         df_tabla = df_sankey.rename(columns={
-            "Servicio": "Uso",
-            "Equipo": "Subuso",
+            "uso": "Servicio",
+            "subuso": "Equipo",
             "valor": "Consumo (kWh/mes)"
         })
 
@@ -1573,6 +1573,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
