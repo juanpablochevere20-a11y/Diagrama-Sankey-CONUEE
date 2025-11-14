@@ -1687,25 +1687,23 @@ if st.session_state.get("mostrar_form_reporte", False):
         # -------------------------
         # GUARDAR IMAGENES
         # -------------------------
-        # Sankey
-        sankey_path = "/mnt/data/sankey_temp.png"
-        sankey_bytes = fig.to_image(format="png")
-        with open("/mnt/data/sankey_temp.png", "wb") as f:
-            f.write(sankey_bytes)
-        sankey_path = "/mnt/data/sankey_temp.png"
+        from pathlib import Path
 
-        # Pareto
-        pareto_path = "/mnt/data/pareto_temp.png"
-        pareto_bytes = fig_pareto.to_image(format="png")
-        with open("/mnt/data/pareto_temp.png", "wb") as f:
-            f.write(pareto_bytes)
-        pareto_path = "/mnt/data/pareto_temp.png"
+# Crear carpeta temporal si no existe
+        tmp_dir = Path("/mnt/data")
+        tmp_dir.mkdir(parents=True, exist_ok=True)
 
+# Sankey
+        sankey_path = tmp_dir / "sankey_temp.png"
+        fig.write_image(str(sankey_path))  # evita problemas de Kaleido en memoria
         doc.add_heading("Diagrama Sankey", level=2)
-        doc.add_picture(sankey_path, width=Inches(6))
+        doc.add_picture(str(sankey_path), width=Inches(6))
 
+# Pareto
+        pareto_path = tmp_dir / "pareto_temp.png"
+        fig_pareto.write_image(str(pareto_path))
         doc.add_heading("Diagrama de Pareto", level=2)
-        doc.add_picture(pareto_path, width=Inches(6))
+        doc.add_picture(str(pareto_path), width=Inches(6))
 
         # -------------------------
         # EXPORTACIÓN
@@ -1738,6 +1736,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
