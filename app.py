@@ -1689,11 +1689,17 @@ if st.session_state.get("mostrar_form_reporte", False):
         # -------------------------
         # Sankey
         sankey_path = "/mnt/data/sankey_temp.png"
-        fig.write_image(sankey_path)
+        sankey_bytes = fig.to_image(format="png")
+        with open("/mnt/data/sankey_temp.png", "wb") as f:
+            f.write(sankey_bytes)
+        sankey_path = "/mnt/data/sankey_temp.png"
 
         # Pareto
         pareto_path = "/mnt/data/pareto_temp.png"
-        fig_pareto.write_image(pareto_path)
+        pareto_bytes = fig_pareto.to_image(format="png")
+        with open("/mnt/data/pareto_temp.png", "wb") as f:
+            f.write(pareto_bytes)
+        pareto_path = "/mnt/data/pareto_temp.png"
 
         doc.add_heading("Diagrama Sankey", level=2)
         doc.add_picture(sankey_path, width=Inches(6))
@@ -1732,6 +1738,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
