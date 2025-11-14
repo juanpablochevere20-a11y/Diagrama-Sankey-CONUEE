@@ -8,13 +8,6 @@ import plotly.graph_objects as go
 import plotly.express as px
 from io import BytesIO
 from docx import Document
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-import tempfile
-import base64
-import io
-from PIL import Image
-import plotly.io as pio
 
 # Reiniciar datos cada vez que se recarga la app
 if "sankey_data" not in st.session_state:
@@ -1774,6 +1767,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
