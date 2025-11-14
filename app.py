@@ -1687,28 +1687,24 @@ if st.session_state.get("mostrar_form_reporte", False):
         # -------------------------
         # GUARDAR IMAGENES
         # -------------------------
-        from pathlib import Path
+        # Usar /tmp para evitar problemas de permisos en Streamlit Cloud
 
-# Crear carpeta temporal si no existe
-        tmp_dir = Path("/mnt/data")
-        tmp_dir.mkdir(parents=True, exist_ok=True)
-
-# Sankey
-        sankey_path = tmp_dir / "sankey_temp.png"
-        fig.write_image(str(sankey_path))  # evita problemas de Kaleido en memoria
+        # Sankey
+        sankey_path = "/tmp/sankey_temp.png"
+        fig.write_image(sankey_path)  # genera la imagen directamente en disco
         doc.add_heading("Diagrama Sankey", level=2)
-        doc.add_picture(str(sankey_path), width=Inches(6))
+        doc.add_picture(sankey_path, width=Inches(6))
 
-# Pareto
-        pareto_path = tmp_dir / "pareto_temp.png"
-        fig_pareto.write_image(str(pareto_path))
+        # Pareto
+        pareto_path = "/tmp/pareto_temp.png"
+        fig_pareto.write_image(pareto_path)
         doc.add_heading("Diagrama de Pareto", level=2)
-        doc.add_picture(str(pareto_path), width=Inches(6))
+        doc.add_picture(pareto_path, width=Inches(6))
 
         # -------------------------
         # EXPORTACIÓN
         # -------------------------
-        output_path = "/mnt/data/Reporte_Herramienta.docx"
+        output_path = "/tmp/Reporte_Herramienta.docx"
         doc.save(output_path)
 
         with open(output_path, "rb") as f:
@@ -1736,6 +1732,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
