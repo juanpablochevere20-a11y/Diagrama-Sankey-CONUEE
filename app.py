@@ -1684,22 +1684,29 @@ if st.session_state.get("mostrar_form_reporte", False):
             row[1].text = str(r["Equipo"])
             row[2].text = str(round(r["Consumo (kWh/mes)"],2))
 
-        # -------------------------
-        # GUARDAR IMAGENES
-        # -------------------------
-        # Usar /tmp para evitar problemas de permisos en Streamlit Cloud
+# -------------------------
+# GUARDAR IMAGENES (SOLUCIÓN SIN write_image)
+# -------------------------
+        from PIL import Image
+        import io
 
-        # Sankey
-        sankey_path = "/tmp/sankey_temp.png"
-        fig.write_image(sankey_path)  # genera la imagen directamente en disco
+# ---- Sankey ----
+        img_sankey = fig.to_image(format="png", engine="kaleido")
+        sankey_image = Image.open(io.BytesIO(img_sankey))
+        sankey_temp = "/tmp/sankey_temp.png"
+        sankey_image.save(sankey_temp)
+
         doc.add_heading("Diagrama Sankey", level=2)
-        doc.add_picture(sankey_path, width=Inches(6))
+        doc.add_picture(sankey_temp, width=Inches(6))
 
-        # Pareto
-        pareto_path = "/tmp/pareto_temp.png"
-        fig_pareto.write_image(pareto_path)
+# ---- Pareto ----
+        img_pareto = fig_pareto.to_image(format="png", engine="kaleido")
+        pareto_image = Image.open(io.BytesIO(img_pareto))
+        pareto_temp = "/tmp/pareto_temp.png"
+        pareto_image.save(pareto_temp)
+
         doc.add_heading("Diagrama de Pareto", level=2)
-        doc.add_picture(pareto_path, width=Inches(6))
+        doc.add_picture(pareto_temp, width=Inches(6))
 
         # -------------------------
         # EXPORTACIÓN
@@ -1732,6 +1739,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
