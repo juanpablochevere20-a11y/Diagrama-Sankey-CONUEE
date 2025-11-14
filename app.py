@@ -596,22 +596,21 @@ with st.sidebar:
     #st.markdown("### Para Inmuebles Residenciales Selecciona 7 días")
     factor_mensual = round(dias_semana * 4.287, 3)
     #st.caption(f"Factor mensual usado: {factor_mensual} (días/semana × 4.287)")
+# ------------------------
+# CONFIGURACIÓN DEL INMUEBLE (nuevo)
+# ------------------------
+modo_calculo = st.radio(
+    "¿Cómo deseas contabilizar el consumo del inmueble?",
+    ["Global (todo el edificio)", "Por piso"],
+    index=0,
+    key="modo_calculo"
+)
 
 # ------------------------
 # Pestaña Oficina
 # ------------------------
 with tab_oficina:
     st.header("🏢 Oficina — entrada de equipos y servicios")
-
-    # ------------------------
-    # CONFIGURACIÓN DEL INMUEBLE (nuevo)
-    # ------------------------
-    modo_calculo = st.radio(
-        "¿Cómo deseas contabilizar el consumo del inmueble?",
-        ["Global (todo el edificio)", "Por piso"],
-        index=0,
-        key="modo_calculo"
-    )
     
     # ------------------------
     # MODO GLOBAL
@@ -1631,6 +1630,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
