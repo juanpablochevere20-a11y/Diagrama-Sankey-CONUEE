@@ -38,3 +38,5 @@ tzdata==2025.2
 urllib3==2.5.0
 watchdog==6.0.0
 openpyxl==3.1.5
+python-docx
+kaleido
