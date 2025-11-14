@@ -1,3 +1,4 @@
+# app_consumo.py
 # ===========================================
 # ⚡ APP STREAMLIT: Oficina / Salud / Otros usos + Residencial (integrado) + Consejos dinámicos
 # ===========================================
@@ -7,7 +8,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 from io import BytesIO
-from docx import Document
+import time
 
 # Reiniciar datos cada vez que se recarga la app
 if "sankey_data" not in st.session_state:
@@ -1441,8 +1442,6 @@ if "mostrar_sankey" not in st.session_state:
     st.session_state["mostrar_sankey"] = False
 if "mostrar_pareto" not in st.session_state:
     st.session_state["mostrar_pareto"] = False
-if "mostrar_form_reporte" not in st.session_state:
-    st.session_state["mostrar_form_reporte"] = False
 
 # ------------------------
 # Botones para alternar tabla y Sankey
@@ -1616,141 +1615,6 @@ if st.session_state["mostrar_pareto"]:
         )
 
         st.plotly_chart(fig_pareto, use_container_width=True)
-
-# ------------------------
-# Mostrar Reporte
-# ------------------------
-if st.button("📝 Generar Reporte"):
-    sankey_data = st.session_state.get("sankey_data", [])
-    if not sankey_data:
-        st.sidebar.info("⚠️ No hay datos para generar Reporte.")
-    else:
-        st.session_state["mostrar_form_reporte"] = True
-
-# ------------------------
-# Mostrar Reporte
-# ------------------------
-if st.button("📝 Generar Reporte"):
-    sankey_data = st.session_state.get("sankey_data", [])
-    if not sankey_data:
-        st.sidebar.info("⚠️ No hay datos para generar Reporte.")
-    else:
-        st.session_state["mostrar_form_reporte"] = True
-
-
-# =====================================================
-#  FORMULARIO PARA GENERAR REPORTE  +  UPLOADERS
-# =====================================================
-if st.session_state.get("mostrar_form_reporte", False):
-
-    st.info("""
-        Para incluir los gráficos en el reporte:
-        1️⃣ Usa el icono de cámara 📷 en la esquina de los gráficos.  
-        2️⃣ Descarga el PNG.  
-        3️⃣ Súbelo aquí.
-    """)
-
-    uploaded_sankey = st.file_uploader(
-        "Sube la imagen PNG del Diagrama Sankey",
-        type=["png"]
-    )
-
-    uploaded_pareto = st.file_uploader(
-        "Sube la imagen PNG del Gráfico Pareto",
-        type=["png"]
-    )
-
-    with st.form("form_reporte"):
-        nombre_inmueble = st.text_input("🏢 Nombre del inmueble:")
-        dependencia = st.text_input("🏛️ Dependencia:")
-        generar = st.form_submit_button("Generar archivo")
-
-    # =====================================================
-    #  GENERAR DOCUMENTO
-    # =====================================================
-    if generar:
-
-        sankey_data = st.session_state.get("sankey_data", [])
-        if not sankey_data:
-            st.sidebar.info("⚠️ No hay datos para generar Reporte.")
-            st.stop()
-
-        from docx import Document
-        from docx.shared import Inches
-
-        # Crear documento
-        doc = Document()
-        doc.add_heading(
-            f"Reporte del Consumo Energético Mensual del Inmueble: {nombre_inmueble}",
-            level=1
-        )
-
-        # -------------------------
-        # Resumen numérico
-        # -------------------------
-        df = pd.DataFrame(sankey_data)
-        total_consumo = df["valor"].sum()
-
-        doc.add_paragraph(f"Dependencia: {dependencia}")
-        doc.add_paragraph(f"Fecha del reporte: {pd.Timestamp.now().strftime('%d/%m/%Y')}")
-        doc.add_paragraph(f"Consumo total estimado: {round(total_consumo,2)} kWh/mes.\n")
-
-        # -------------------------
-        # TABLA RESUMEN
-        # -------------------------
-        df_tabla = df.rename(columns={
-            "uso": "Servicio",
-            "subuso": "Equipo",
-            "valor": "Consumo (kWh/mes)"
-        })
-
-        df_tabla = df_tabla.groupby(["Servicio","Equipo"]).sum().reset_index()
-
-        doc.add_heading("Tabla resumen de consumos", level=2)
-        table = doc.add_table(rows=1, cols=3)
-        hdr = table.rows[0].cells
-        hdr[0].text = "Servicio"
-        hdr[1].text = "Equipo"
-        hdr[2].text = "Consumo (kWh/mes)"
-
-        for _, r in df_tabla.iterrows():
-            row = table.add_row().cells
-            row[0].text = str(r["Servicio"])
-            row[1].text = str(r["Equipo"])
-            row[2].text = str(round(r["Consumo (kWh/mes)"],2))
-
-        # -------------------------
-        # INSERTAR IMÁGENES SUBIDAS
-        # -------------------------
-        doc.add_heading("Diagrama Sankey", level=2)
-
-        if uploaded_sankey:
-            doc.add_picture(uploaded_sankey, width=Inches(6))
-        else:
-            doc.add_paragraph("⚠ No se cargó la imagen del Sankey.")
-
-        doc.add_heading("Gráfico de Pareto", level=2)
-
-        if uploaded_pareto:
-            doc.add_picture(uploaded_pareto, width=Inches(6))
-        else:
-            doc.add_paragraph("⚠ No se cargó la imagen del Pareto.")
-
-        # -------------------------
-        # EXPORTAR ARCHIVO
-        # -------------------------
-        output_path = "/tmp/Reporte_Herramienta.docx"
-        doc.save(output_path)
-
-        with open(output_path, "rb") as f:
-            st.download_button(
-                "📥 Descargar Reporte",
-                data=f,
-                file_name="Reporte_Herramienta.docx"
-            )
-
-        st.success("✅ Reporte generado correctamente.")
-
 # ------------------------
 # Footer
 # ------------------------
