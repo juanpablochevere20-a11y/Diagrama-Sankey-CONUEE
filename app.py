@@ -8,6 +8,13 @@ import plotly.graph_objects as go
 import plotly.express as px
 from io import BytesIO
 from docx import Document
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import tempfile
+import base64
+import io
+from PIL import Image
+import plotly.io as pio
 
 # Reiniciar datos cada vez que se recarga la app
 if "sankey_data" not in st.session_state:
@@ -1628,15 +1635,46 @@ if st.button("📝 Generar Reporte"):
         st.session_state["mostrar_form_reporte"] = True
 
 # ------------------------
-# FORMULARIO PARA GENERAR REPORTE
+# Mostrar Reporte
 # ------------------------
+if st.button("📝 Generar Reporte"):
+    sankey_data = st.session_state.get("sankey_data", [])
+    if not sankey_data:
+        st.sidebar.info("⚠️ No hay datos para generar Reporte.")
+    else:
+        st.session_state["mostrar_form_reporte"] = True
+
+
+# =====================================================
+#  FORMULARIO PARA GENERAR REPORTE  +  UPLOADERS
+# =====================================================
 if st.session_state.get("mostrar_form_reporte", False):
+
+    st.info("""
+        Para incluir los gráficos en el reporte:
+        1️⃣ Usa el icono de cámara 📷 en la esquina de los gráficos.  
+        2️⃣ Descarga el PNG.  
+        3️⃣ Súbelo aquí.
+    """)
+
+    uploaded_sankey = st.file_uploader(
+        "Sube la imagen PNG del Diagrama Sankey",
+        type=["png"]
+    )
+
+    uploaded_pareto = st.file_uploader(
+        "Sube la imagen PNG del Gráfico Pareto",
+        type=["png"]
+    )
 
     with st.form("form_reporte"):
         nombre_inmueble = st.text_input("🏢 Nombre del inmueble:")
         dependencia = st.text_input("🏛️ Dependencia:")
         generar = st.form_submit_button("Generar archivo")
 
+    # =====================================================
+    #  GENERAR DOCUMENTO
+    # =====================================================
     if generar:
 
         sankey_data = st.session_state.get("sankey_data", [])
@@ -1649,7 +1687,10 @@ if st.session_state.get("mostrar_form_reporte", False):
 
         # Crear documento
         doc = Document()
-        doc.add_heading(f"Reporte del Consumo Energético Mensual del Inmueble: {nombre_inmueble}", level=1)
+        doc.add_heading(
+            f"Reporte del Consumo Energético Mensual del Inmueble: {nombre_inmueble}",
+            level=1
+        )
 
         # -------------------------
         # Resumen numérico
@@ -1669,6 +1710,7 @@ if st.session_state.get("mostrar_form_reporte", False):
             "subuso": "Equipo",
             "valor": "Consumo (kWh/mes)"
         })
+
         df_tabla = df_tabla.groupby(["Servicio","Equipo"]).sum().reset_index()
 
         doc.add_heading("Tabla resumen de consumos", level=2)
@@ -1684,32 +1726,25 @@ if st.session_state.get("mostrar_form_reporte", False):
             row[1].text = str(r["Equipo"])
             row[2].text = str(round(r["Consumo (kWh/mes)"],2))
 
-# -------------------------
-# GUARDAR IMAGENES (SOLUCIÓN SIN write_image)
-# -------------------------
-        from PIL import Image
-        import io
-
-# ---- Sankey ----
-        img_sankey = fig.to_image(format="png", engine="kaleido")
-        sankey_image = Image.open(io.BytesIO(img_sankey))
-        sankey_temp = "/tmp/sankey_temp.png"
-        sankey_image.save(sankey_temp)
-
+        # -------------------------
+        # INSERTAR IMÁGENES SUBIDAS
+        # -------------------------
         doc.add_heading("Diagrama Sankey", level=2)
-        doc.add_picture(sankey_temp, width=Inches(6))
 
-# ---- Pareto ----
-        img_pareto = fig_pareto.to_image(format="png", engine="kaleido")
-        pareto_image = Image.open(io.BytesIO(img_pareto))
-        pareto_temp = "/tmp/pareto_temp.png"
-        pareto_image.save(pareto_temp)
+        if uploaded_sankey:
+            doc.add_picture(uploaded_sankey, width=Inches(6))
+        else:
+            doc.add_paragraph("⚠ No se cargó la imagen del Sankey.")
 
-        doc.add_heading("Diagrama de Pareto", level=2)
-        doc.add_picture(pareto_temp, width=Inches(6))
+        doc.add_heading("Gráfico de Pareto", level=2)
+
+        if uploaded_pareto:
+            doc.add_picture(uploaded_pareto, width=Inches(6))
+        else:
+            doc.add_paragraph("⚠ No se cargó la imagen del Pareto.")
 
         # -------------------------
-        # EXPORTACIÓN
+        # EXPORTAR ARCHIVO
         # -------------------------
         output_path = "/tmp/Reporte_Herramienta.docx"
         doc.save(output_path)
@@ -1739,6 +1774,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
