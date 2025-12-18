@@ -1643,7 +1643,10 @@ def generar_reporte_word(datos, plantilla_path, salida_path):
 
     doc.save(salida_path)
 
-if st.button("🧪 Probar generación de reporte"):
+st.divider()
+st.subheader("Generación del reporte")
+
+if st.button("📄 Generar reporte de resultados"):
     datos_prueba = {
         "INMUEBLE": "Prueba inmueble",
         "TIPO_INMUEBLE": "Oficinas",
@@ -1660,6 +1663,13 @@ if st.button("🧪 Probar generación de reporte"):
 
     st.success("Reporte generado correctamente")
 
+    with open("reporte_prueba.docx", "rb") as f:
+        st.download_button(
+            "⬇️ Descargar reporte",
+            data=f,
+            file_name="Reporte_prueba.docx",
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
 
 
 
