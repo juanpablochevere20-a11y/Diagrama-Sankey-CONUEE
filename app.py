@@ -9,6 +9,8 @@ import plotly.graph_objects as go
 import plotly.express as px
 from io import BytesIO
 import time
+from docx import Document
+from datetime import date
 
 # Reiniciar datos cada vez que se recarga la app
 if "sankey_data" not in st.session_state:
@@ -1630,6 +1632,34 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+def generar_reporte_word(datos, plantilla_path, salida_path):
+    doc = Document(plantilla_path)
+
+    for paragraph in doc.paragraphs:
+        for key, value in datos.items():
+            marcador = f"{{{{{key}}}}}"
+            if marcador in paragraph.text:
+                paragraph.text = paragraph.text.replace(marcador, str(value))
+
+    doc.save(salida_path)
+
+if st.button("🧪 Probar generación de reporte"):
+    datos_prueba = {
+        "INMUEBLE": "Prueba inmueble",
+        "TIPO_INMUEBLE": "Oficinas",
+        "DEPENDENCIA": "Dependencia de prueba",
+        "FECHA_REPORTE": date.today().strftime("%d/%m/%Y"),
+        "CONSUMO_TOTAL_KWH": "12345"
+    }
+
+    generar_reporte_word(
+        datos=datos_prueba,
+        plantilla_path="templates/reporte_base.docx",
+        salida_path="reporte_prueba.docx"
+    )
+
+    st.success("Reporte generado correctamente")
+
 
 
 
