@@ -1473,17 +1473,25 @@ if st.sidebar.button("📄 Generar reporte de resultados"):
 
     sankey_data = st.session_state.get("sankey_data", [])
 
-    # 1️⃣ Validación mínima
+    # =========================
+    # VALIDACIÓN
+    # =========================
     if not sankey_data:
         st.sidebar.warning("⚠️ No hay datos suficientes para generar el reporte.")
     else:
-        # 2️⃣ Convertir a DataFrame
+        # =========================
+        # DATAFRAME BASE
+        # =========================
         df = pd.DataFrame(sankey_data)
 
-        # 3️⃣ Consumo total
+        # =========================
+        # CONSUMO TOTAL
+        # =========================
         consumo_total = df["valor"].sum()
 
-        # 4️⃣ Verificar si hay pisos
+        # =========================
+        # ¿HAY PISOS?
+        # =========================
         tiene_pisos = "piso" in df.columns and df["piso"].notna().any()
 
         # =========================
@@ -1497,7 +1505,12 @@ if st.sidebar.button("📄 Generar reporte de resultados"):
             )
 
             piso_mayor = consumo_por_piso.index[0]
+            consumo_piso_mayor = consumo_por_piso.iloc[0]
+
             piso_segundo = consumo_por_piso.index[1] if len(consumo_por_piso) > 1 else "No aplica"
+            consumo_piso_segundo = (
+                consumo_por_piso.iloc[1] if len(consumo_por_piso) > 1 else "No aplica"
+            )
 
             df_piso = df[df["piso"] == piso_mayor]
 
@@ -1508,11 +1521,19 @@ if st.sidebar.button("📄 Generar reporte de resultados"):
                 .index[0]
             )
 
+            consumo_servicio_piso_mayor = (
+                df_piso[df_piso["uso"] == servicio_piso_mayor]["valor"].sum()
+            )
+
             equipo_piso_mayor = (
                 df_piso.groupby("subuso")["valor"]
                 .sum()
                 .sort_values(ascending=False)
                 .index[0]
+            )
+
+            consumo_equipo_piso_mayor = (
+                df_piso[df_piso["subuso"] == equipo_piso_mayor]["valor"].sum()
             )
 
             servicio_piso_segundo = (
@@ -1532,7 +1553,9 @@ if st.sidebar.button("📄 Generar reporte de resultados"):
             )
         else:
             piso_mayor = piso_segundo = "No aplica"
+            consumo_piso_mayor = consumo_piso_segundo = "No aplica"
             servicio_piso_mayor = equipo_piso_mayor = "No aplica"
+            consumo_servicio_piso_mayor = consumo_equipo_piso_mayor = "No aplica"
             servicio_piso_segundo = equipo_piso_segundo = "No aplica"
 
         # =========================
@@ -1545,11 +1568,19 @@ if st.sidebar.button("📄 Generar reporte de resultados"):
             .index[0]
         )
 
+        consumo_servicio_global_mayor = (
+            df[df["uso"] == servicio_global_mayor]["valor"].sum()
+        )
+
         equipo_global_mayor = (
             df.groupby("subuso")["valor"]
             .sum()
             .sort_values(ascending=False)
             .index[0]
+        )
+
+        consumo_equipo_global_mayor = (
+            df[df["subuso"] == equipo_global_mayor]["valor"].sum()
         )
 
         servicio_global_segundo = (
@@ -1569,7 +1600,7 @@ if st.sidebar.button("📄 Generar reporte de resultados"):
         )
 
         # =========================
-        # DATOS PARA EL WORD
+        # DATOS PARA WORD
         # =========================
         datos_reporte = {
             "INMUEBLE": st.session_state.get("nombre_inmueble", "No especificado"),
@@ -1577,22 +1608,40 @@ if st.sidebar.button("📄 Generar reporte de resultados"):
             "DEPENDENCIA": st.session_state.get("dependencia", "No especificado"),
             "FECHA_REPORTE": date.today().strftime("%d/%m/%Y"),
 
-            "CONSUMO_TOTAL_KWH": f"{consumo_total:,.0f}",
+            "CONSUMO_TOTAL_KWH": f"{consumo_total:,.0f} kWh/mes",
 
+            # --- Piso ---
             "PISO_MAYOR_CONSUMO": piso_mayor,
-            "SERVICIO_PISO_MAYOR": servicio_piso_mayor,
-            "EQUIPO_PISO_MAYOR": equipo_piso_mayor,
-
-            "PISO_X": piso_mayor,
-            "SERVICIO_PISO_X": servicio_piso_mayor,
-            "EQUIPO_PISO_X": equipo_piso_mayor,
-
+            "CONSUMO_PISO_MAYOR_CONSUMO_KWH": (
+                f"{consumo_piso_mayor:,.0f} kWh/mes"
+                if consumo_piso_mayor != "No aplica" else "No aplica"
+            ),
             "PISO_SEGUNDO_CONSUMO": piso_segundo,
+            "CONSUMO_PISO_SEGUNDO_KWH": (
+                f"{consumo_piso_segundo:,.0f} kWh/mes"
+                if consumo_piso_segundo != "No aplica" else "No aplica"
+            ),
+
+            "SERVICIO_PISO_MAYOR": servicio_piso_mayor,
+            "CONSUMO_SERVICIO_PISO_MAYOR_KWH": (
+                f"{consumo_servicio_piso_mayor:,.0f} kWh/mes"
+                if consumo_servicio_piso_mayor != "No aplica" else "No aplica"
+            ),
+
+            "EQUIPO_PISO_MAYOR": equipo_piso_mayor,
+            "CONSUMO_EQUIPO_PISO_MAYOR_KWH": (
+                f"{consumo_equipo_piso_mayor:,.0f} kWh/mes"
+                if consumo_equipo_piso_mayor != "No aplica" else "No aplica"
+            ),
+
             "SERVICIO_PISO_SEGUNDO": servicio_piso_segundo,
             "EQUIPO_PISO_SEGUNDO": equipo_piso_segundo,
 
+            # --- Global ---
             "SERVICIO_GLOBAL_MAYOR": servicio_global_mayor,
+            "CONSUMO_SERVICIO_GLOBAL_MAYOR_KWH": f"{consumo_servicio_global_mayor:,.0f} kWh/mes",
             "EQUIPO_GLOBAL_MAYOR": equipo_global_mayor,
+            "CONSUMO_EQUIPO_GLOBAL_MAYOR_KWH": f"{consumo_equipo_global_mayor:,.0f} kWh/mes",
 
             "SERVICIO_GLOBAL_SEGUNDO": servicio_global_segundo,
             "EQUIPO_GLOBAL_SEGUNDO": equipo_global_segundo
@@ -1794,6 +1843,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
