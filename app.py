@@ -1623,13 +1623,13 @@ if st.sidebar.button("📄 Generar reporte de resultados"):
             ),
 
             "SERVICIO_PISO_MAYOR": servicio_piso_mayor,
-            "CONSUMO_SERVICIO_PISO_MAYOR_KWH": (
+            "CONSUMO_SERVICIO_PISO_MAYOR": (
                 f"{consumo_servicio_piso_mayor:,.0f} kWh/mes"
                 if consumo_servicio_piso_mayor != "No aplica" else "No aplica"
             ),
 
             "EQUIPO_PISO_MAYOR": equipo_piso_mayor,
-            "CONSUMO_EQUIPO_PISO_MAYOR_KWH": (
+            "CONSUMO_EQUIPO_PISO_MAYOR": (
                 f"{consumo_equipo_piso_mayor:,.0f} kWh/mes"
                 if consumo_equipo_piso_mayor != "No aplica" else "No aplica"
             ),
@@ -1639,9 +1639,9 @@ if st.sidebar.button("📄 Generar reporte de resultados"):
 
             # --- Global ---
             "SERVICIO_GLOBAL_MAYOR": servicio_global_mayor,
-            "CONSUMO_SERVICIO_GLOBAL_MAYOR_KWH": f"{consumo_servicio_global_mayor:,.0f} kWh/mes",
+            "CONSUMO_SERVICIO_GLOBAL_MAYOR": f"{consumo_servicio_global_mayor:,.0f} kWh/mes",
             "EQUIPO_GLOBAL_MAYOR": equipo_global_mayor,
-            "CONSUMO_EQUIPO_GLOBAL_MAYOR_KWH": f"{consumo_equipo_global_mayor:,.0f} kWh/mes",
+            "CONSUMO_EQUIPO_GLOBAL_MAYOR": f"{consumo_equipo_global_mayor:,.0f} kWh/mes",
 
             "SERVICIO_GLOBAL_SEGUNDO": servicio_global_segundo,
             "EQUIPO_GLOBAL_SEGUNDO": equipo_global_segundo
@@ -1843,6 +1843,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
