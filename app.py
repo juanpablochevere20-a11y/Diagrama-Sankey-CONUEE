@@ -12,6 +12,17 @@ import time
 from docx import Document
 from datetime import date
 
+def generar_reporte_word(datos, plantilla_path, salida_path):
+    doc = Document(plantilla_path)
+
+    for paragraph in doc.paragraphs:
+        for key, value in datos.items():
+            marcador = f"{{{{{key}}}}}"
+            if marcador in paragraph.text:
+                paragraph.text = paragraph.text.replace(marcador, str(value))
+
+    doc.save(salida_path)
+
 # Reiniciar datos cada vez que se recarga la app
 if "sankey_data" not in st.session_state:
     st.session_state["sankey_data"] = []
@@ -1455,6 +1466,34 @@ if st.sidebar.button("📊 Mostrar / Ocultar Sankey"):
 
 if st.sidebar.button("📊 Mostrar / Ocultar Pareto"):
     st.session_state["mostrar_pareto"] = not st.session_state["mostrar_pareto"]
+
+st.sidebar.divider()
+
+if st.sidebar.button("📄 Generar reporte de resultados"):
+    datos_prueba = {
+        "INMUEBLE": "Prueba inmueble",
+        "TIPO_INMUEBLE": "Oficinas",
+        "DEPENDENCIA": "Dependencia de prueba",
+        "FECHA_REPORTE": date.today().strftime("%d/%m/%Y"),
+        "CONSUMO_TOTAL_KWH": "12345"
+    }
+
+    generar_reporte_word(
+        datos=datos_prueba,
+        plantilla_path="templates/reporte_base.docx",
+        salida_path="reporte_prueba.docx"
+    )
+
+    st.sidebar.success("Reporte generado")
+
+    with open("reporte_prueba.docx", "rb") as f:
+        st.sidebar.download_button(
+            label="⬇️ Descargar reporte",
+            data=f,
+            file_name="Reporte_prueba.docx",
+            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        )
+
 # ------------------------
 # Mostrar tabla resumen
 # ------------------------
@@ -1632,51 +1671,6 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
-def generar_reporte_word(datos, plantilla_path, salida_path):
-    doc = Document(plantilla_path)
-
-    for paragraph in doc.paragraphs:
-        for key, value in datos.items():
-            marcador = f"{{{{{key}}}}}"
-            if marcador in paragraph.text:
-                paragraph.text = paragraph.text.replace(marcador, str(value))
-
-    doc.save(salida_path)
-
-st.divider()
-st.subheader("Generación del reporte")
-
-if st.button("📄 Generar reporte de resultados"):
-    datos_prueba = {
-        "INMUEBLE": "Prueba inmueble",
-        "TIPO_INMUEBLE": "Oficinas",
-        "DEPENDENCIA": "Dependencia de prueba",
-        "FECHA_REPORTE": date.today().strftime("%d/%m/%Y"),
-        "CONSUMO_TOTAL_KWH": "12345"
-    }
-
-    generar_reporte_word(
-        datos=datos_prueba,
-        plantilla_path="templates/reporte_base.docx",
-        salida_path="reporte_prueba.docx"
-    )
-
-    st.success("Reporte generado correctamente")
-
-    with open("reporte_prueba.docx", "rb") as f:
-        st.download_button(
-            "⬇️ Descargar reporte",
-            data=f,
-            file_name="Reporte_prueba.docx",
-            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-        )
-
-
-
-
-
-
-
 
 
 
