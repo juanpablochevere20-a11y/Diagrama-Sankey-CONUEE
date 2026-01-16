@@ -54,7 +54,7 @@ potencias_nominales = {
     "Incandescente": 60, "Halógena": 50, "Computadora de escritorio": 250, "Laptop": 5.2,
     "Refrigerador": 47, "Cafetera": 1000, "Microondas": 1000, "Parrilla o estufa eléctrica": 1500,
     "Horno eléctrico": 1200, "Purificador de aire": 150, "Bomba de agua": 1800,
-    "Elevador": 12000, "Escaleras eléctricas": 10000, "Compresor": 4000,
+    "Elevador": 12000, "Escaleras eléctricas": 15000, "Compresor": 4000,
     "Fotocopiadora/ Impresora": 300, "Escáner": 30, "Multiusos": 100, "Ventilador individual": 80,
     "Cañones y proyectores": 200, "Teléfono analógico": 0.67, "Teléfono con pantalla": 1.65,
     "Teléfono inalámbrico": 3.3, "Routers Wi-Fi": 20, "Plancha": 1745, "Licuadora": 750,
@@ -703,7 +703,7 @@ with tab_oficina:
 
                             if sub in equipos_continuos:
                                 horas = 24
-                                st.info("⏱️ Este equipo permanece conectado las 24 horas del día.")
+                                st.info("⏱️ Este equipo es de uso continuo.")
                             else:
                                 horas = st.number_input("Horas/día:", min_value=0.1, max_value=24.0, value=8.0, step=1.0, key=f"{key_base}_hr")
 
@@ -779,7 +779,7 @@ with tab_oficina:
 
                                     if sub in equipos_continuos:
                                         horas = 24
-                                        st.info("⏱️ Este equipo permanece conectado las 24 horas del día.")
+                                        st.info("⏱️ Este equipo es de uso continuo.")
                                     else:
                                         horas = st.number_input("Horas/día:", min_value=0.1, max_value=24.0, value=8.0, step=1.0, key=f"{key_base}_hr")
 
@@ -888,7 +888,7 @@ with tab_salud:
                             num_equipos = st.number_input(f"N° equipos ({sub})", min_value=1, step=1, key=f"{key_base}_num")
                             if sub in equipos_continuos:
                                 horas = 24
-                                st.info("⏱️ Este equipo permanece conectado las 24 horas del día.")
+                                st.info("⏱️ Este equipo es de uso continuo.")
                             else:
                                 horas = st.number_input("Horas/día:", min_value=0.1, max_value=24.0, value=8.0, step=1.0, key=f"{key_base}_hr")
 
@@ -1048,7 +1048,7 @@ with tab_otros:
                             num_equipos = st.number_input(f"N° equipos ({sub})", min_value=1, step=1, key=f"{key_base}_num")
                             if sub in equipos_continuos:
                                 horas = 24
-                                st.info("⏱️ Este equipo permanece conectado las 24 horas del día.")
+                                st.info("⏱️ Este equipo es de uso continuo.")
                             else:
                                 horas = st.number_input("Horas/día:", min_value=0.1, max_value=24.0, value=8.0, step=1.0, key=f"{key_base}_hr")
 
@@ -1107,7 +1107,7 @@ with tab_otros:
                                     num_equipos = st.number_input(f"N° equipos ({sub})", min_value=1, step=1, key=f"{key_base}_num")
                                     if sub in equipos_continuos:
                                         horas = 24
-                                        st.info("⏱️ Este equipo permanece conectado las 24 horas del día.")
+                                        st.info("⏱️ Este equipo es de uso continuo.")
                                     else:
                                         horas = st.number_input("Horas/día:", min_value=0.1, max_value=24.0, value=8.0, step=1.0, key=f"{key_base}_hr")
 
@@ -1237,7 +1237,7 @@ with tab_residencial:
                             num_equipos = st.number_input(f"N° equipos ({sub})", min_value=1, step=1, key=f"{key_base}_num")
                             if sub in equipos_continuos:
                                 horas = 24
-                                st.info("⏱️ Este equipo permanece conectado las 24 horas del día.")
+                                st.info("⏱️ Este equipo es de uso continuo.")
                             else:
                                 horas = st.number_input("Horas/día:", min_value=0.1, max_value=24.0, value=8.0, step=1.0, key=f"{key_base}_hr")
 
@@ -1328,7 +1328,7 @@ with tab_residencial:
                                     num_equipos = st.number_input(f"N° equipos ({sub})", min_value=1, step=1, key=f"{key_base}_num")
                                     if sub in equipos_continuos:
                                         horas = 24
-                                        st.info("⏱️ Este equipo permanece conectado las 24 horas del día.")
+                                        st.info("⏱️ Este equipo es de uso continuo.")
                                     else:
                                         horas = st.number_input("Horas/día:", min_value=0.1, max_value=24.0, value=8.0, step=1.0, key=f"{key_base}_hr")
 
@@ -1782,6 +1782,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
