@@ -49,7 +49,7 @@ equipos_continuos = [
 
 # Potencias nominales por subuso (W)
 potencias_nominales = {
-    "Tubo LED T8": 18, "Tubo LED T5": 16, "Foco LED": 10, "Panel LED": 40,
+    "Tubo LED T8": 18, "Tubo LED T5": 16, "Foco LED": 10, "Panel LED": 25,
     "Tubo fluorescente T8": 36, "Tubo fluorescente T5": 28, "Fluorescente compacto": 20,
     "Incandescente": 60, "Halógena": 50, "Computadora de escritorio": 250, "Laptop": 5.2,
     "Refrigerador": 47, "Cafetera": 1000, "Microondas": 1000, "Parrilla o estufa eléctrica": 1500,
@@ -1782,6 +1782,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
