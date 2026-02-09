@@ -683,7 +683,7 @@ with tab_oficina:
                                     otros_equipos[i] = {"nombre": nombre, "potencia": potencia, "horas": horas}
                                     st.session_state[f"{key_base}_otros"] = otros_equipos
 
-                                    kwh_mes = round(potencia / 1000 * horas * factor_mensual, 2)
+                                    kwh_mes = round(potencia / 1000 * horas * num_eq * factor_mensual, 2)
                                     nuevo_registro = {
                                         "origen": "Energía eléctrica",
                                         "uso": uso,
@@ -1782,6 +1782,7 @@ with st.sidebar:
         '</a>',
         unsafe_allow_html=True
     )
+
 
 
 
