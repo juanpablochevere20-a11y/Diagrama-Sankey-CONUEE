@@ -1782,7 +1782,7 @@ with st.sidebar:
         f'<a href="{LINKMC}" target="_blank">'
         f'<img src="{MANUALCONSEJOS}" alt="CONUEE" style="width:100%;">'
         f'<a href="{LINKME}" target="_blank">'
-        f'<img src="{MANUALErrores}" alt="CONUEE" style="width:100%;">'
+        f'<img src="{MANUALERRORES}" alt="CONUEE" style="width:100%;">'
         '</a>',
         unsafe_allow_html=True
     )
