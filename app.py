@@ -1773,14 +1773,16 @@ if st.session_state["mostrar_pareto"]:
 #st.markdown("App diseñada para calcular consumos eléctricos por servicio o equipo, introduce tus datos y usa la pestaña **Consejos** para ver recomendaciones enfocadas. Ajusta `dias de operación por semana` en la barra lateral para cambiar el factor mensual.")
 
 MANUALCONSEJOS = "https://www.gob.mx/cms/uploads/article/main_image/143207/consejos_hogar.jpg"
-MANUALERRORES = "https://www.gob.mx/cms/uploads/attachment/file/1038494/Correccio_n_de_malas_pra_cticas_en_oficinas.pdf"
+MANUALERRORES = "https://drive.google.com/file/d/12ivfGNzWW15SsZxgnVKp9IUxNgWW5S9O/view?usp=drive_link" 
+LINKME = "https://www.gob.mx/cms/uploads/attachment/file/1038494/Correccio_n_de_malas_pra_cticas_en_oficinas.pdf"
 LINKMC = "https://www.conuee.gob.mx/transparencia/nuevaestrategia/docs/CONSEJOS_EE_HOGAR_2025.pdf"
 
 with st.sidebar:
     st.markdown(
         f'<a href="{LINKMC}" target="_blank">'
-        f'<img src="{MANUALERRORES}" alt="CONUEE" style="width:100%;">'
         f'<img src="{MANUALCONSEJOS}" alt="CONUEE" style="width:100%;">'
+        f'<a href="{LINKME}" target="_blank">'
+        f'<img src="{MANUALErrores}" alt="CONUEE" style="width:100%;">'
         '</a>',
         unsafe_allow_html=True
     )
