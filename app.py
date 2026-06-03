@@ -1782,9 +1782,9 @@ with st.sidebar:
         f'<a href="{LINKMC}" target="_blank">'
         f'<img src="{MANUALCONSEJOS}" alt="CONUEE" style="width:100%;">'
         '</a>'
-        f'<a href="{LINKME}" target="_blank">'
-        f'<img src="{MANUALERRORES}" alt="CONUEE2" style="width:100%;">'
-        '</a>',
+    st.image("templates/Correccio_n_de_malas_pra_cticas_en_oficinas_page-0001.jpg")
+    st.markdown(
+        f'<a href="{LINKME}" target="_blank">📄 Corrección de malas prácticas</a>',
         unsafe_allow_html=True
     )
 
