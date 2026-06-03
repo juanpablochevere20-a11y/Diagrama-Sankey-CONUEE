@@ -1781,8 +1781,9 @@ with st.sidebar:
     st.markdown(
         f'<a href="{LINKMC}" target="_blank">'
         f'<img src="{MANUALCONSEJOS}" alt="CONUEE" style="width:100%;">'
+        '</a>'
         f'<a href="{LINKME}" target="_blank">'
-        f'<img src="{MANUALERRORES}" alt="CONUEE" style="width:100%;">'
+        f'<img src="{MANUALERRORES}" alt="CONUEE2" style="width:100%;">'
         '</a>',
         unsafe_allow_html=True
     )
