@@ -589,7 +589,7 @@ def calcular_kwh_mes(potencia_w, num_equipos=1, horas=8, factor_mensual=21, cont
 # INTERFAZ: PESTAÑAS
 # ------------------------
 
-tab_oficina, tab_salud, tab_otros, tab_residencial, tab_consejos = st.tabs(["🏢 Oficina", "🏥 Salud", "🏦 Otros usos", "💡 Consejos"])
+tab_oficina, tab_salud, tab_otros, tab_residencial, tab_consejos = st.tabs(["🏢 Oficina", "🏥 Salud", "🏦 Otros usos","Residencial", "💡 Consejos"])
 
 # Parámetros comunes (días de operación por semana -> factor mensual aproximado)
 
