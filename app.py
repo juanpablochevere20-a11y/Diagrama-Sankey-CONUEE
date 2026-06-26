@@ -1778,46 +1778,19 @@ if st.session_state["mostrar_pareto"]:
 #st.markdown("---")
 #st.markdown("App diseñada para calcular consumos eléctricos por servicio o equipo, introduce tus datos y usa la pestaña **Consejos** para ver recomendaciones enfocadas. Ajusta `dias de operación por semana` en la barra lateral para cambiar el factor mensual.")
 
-MANUALCONSEJOS = "https://www.gob.mx/cms/uploads/article/main_image/143207/consejos_hogar.jpg"
-MANUALERRORES = "templates/Correccio_n_de_malas_pra_cticas_en_oficinas_page-0001.jpg" 
-LINKME = "https://www.gob.mx/cms/uploads/attachment/file/1038494/Correccio_n_de_malas_pra_cticas_en_oficinas.pdf"
-LINKMC = "https://www.conuee.gob.mx/transparencia/nuevaestrategia/docs/CONSEJOS_EE_HOGAR_2025.pdf"
+#MANUALCONSEJOS = "https://www.gob.mx/cms/uploads/article/main_image/143207/consejos_hogar.jpg"
+#MANUALERRORES = "templates/Correccio_n_de_malas_pra_cticas_en_oficinas_page-0001.jpg" 
+#LINKME = "https://www.gob.mx/cms/uploads/attachment/file/1038494/Correccio_n_de_malas_pra_cticas_en_oficinas.pdf"
+#LINKMC = "https://www.conuee.gob.mx/transparencia/nuevaestrategia/docs/CONSEJOS_EE_HOGAR_2025.pdf"
 
-with st.sidebar:
-    st.markdown(
-        f'<a href="{LINKMC}" target="_blank">'
-        f'<img src="{MANUALCONSEJOS}" alt="CONUEE" style="width:100%;">'
-        '</a>'
-        )
-    st.image("templates/Correccio_n_de_malas_pra_cticas_en_oficinas_page-0001.jpg")
-    st.markdown(
-        f'<a href="{LINKME}" target="_blank">📄 Corrección de malas prácticas</a>',
-        unsafe_allow_html=True
-    )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#with st.sidebar:
+#    st.markdown(
+#        f'<a href="{LINKMC}" target="_blank">'
+#        f'<img src="{MANUALCONSEJOS}" alt="CONUEE" style="width:100%;">'
+#        '</a>'
+#        )
+#    st.image("templates/Correccio_n_de_malas_pra_cticas_en_oficinas_page-0001.jpg")
+#    st.markdown(
+#        f'<a href="{LINKME}" target="_blank">📄 Corrección de malas prácticas</a>',
+#        unsafe_allow_html=True
+#    )
