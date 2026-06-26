@@ -1128,7 +1128,7 @@ with tab_otros:
                                         st.session_state["sankey_data"].append(nuevo_registro)
 
         st.success("✅ Cálculo completado por piso. Puedes ver el diagrama Sankey más abajo.")
-
+'''
 # ------------------------
 # Pestaña Residencial (completa)
 # ------------------------
@@ -1249,7 +1249,7 @@ with tab_residencial:
                             nuevo_registro = {"origen": "Energía eléctrica", "uso": uso, "subuso": sub, "valor": kwh_mes}
                             if nuevo_registro not in st.session_state["sankey_data"]:
                                 st.session_state["sankey_data"].append(nuevo_registro)
-
+                                
     # ------------------------
     # MODO POR PISO
     # ------------------------
@@ -1369,7 +1369,7 @@ with tab_residencial:
         st.warning("⚠️ *Te recomendamos moderar tu consumo de energía eléctrica* ya que estás **peligrosamente cerca** de cambiar a Tarifa DAC.")
     else:
         st.success("✅ Tu consumo está dentro del rango seguro para tu tarifa.")
-
+'''
 # ------------------------
 # Pestaña Consejos (dinámica)
 # ------------------------
